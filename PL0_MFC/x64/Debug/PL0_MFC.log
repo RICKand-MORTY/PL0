@@ -1,1 +1,26 @@
-﻿
+﻿  PL0_MFCDlg.cpp
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(138,19): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(146,19): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(154,19): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(162,19): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(170,19): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(178,19): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(187,22): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(187,19): warning C4101: “n”: 未引用的局部变量
+  (编译源文件“PL0_MFCDlg.cpp”)
+  
+  PL0_MFC.vcxproj -> C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\x64\Debug\PL0_MFC.exe

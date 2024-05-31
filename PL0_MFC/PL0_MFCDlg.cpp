@@ -174,35 +174,45 @@ void CPL0MFCDlg::OnBnClickedButton1()
 	for (CH = ' '; CH <= '^'; CH++) SSYM[CH] = NUL;
 	strcpy(KWORD[1], "BEGIN");    strcpy(KWORD[2], "CALL");
 	strcpy(KWORD[3], "CONST");    strcpy(KWORD[4], "DO");
-	strcpy(KWORD[5], "END");      strcpy(KWORD[6], "IF");
-	strcpy(KWORD[7], "ODD");      strcpy(KWORD[8], "PROCEDURE");
-	strcpy(KWORD[9], "PROGRAM");  strcpy(KWORD[10], "READ");
-	strcpy(KWORD[11], "THEN");     strcpy(KWORD[12], "VAR");
-	strcpy(KWORD[13], "WHILE");    strcpy(KWORD[14], "WRITE");
-	WSYM[1] = BEGINSYM;   WSYM[2] = CALLSYM;
-	WSYM[3] = CONSTSYM;   WSYM[4] = DOSYM;
-	WSYM[5] = ENDSYM;     WSYM[6] = IFSYM;
-	WSYM[7] = ODDSYM;     WSYM[8] = PROCSYM;
-	WSYM[9] = PROGSYM;    WSYM[10] = READSYM;
-	WSYM[11] = THENSYM;    WSYM[12] = VARSYM;
-	WSYM[13] = WHILESYM;   WSYM[14] = WRITESYM;
+	strcpy(KWORD[5], "ELSE");     strcpy(KWORD[6], "END");
+	strcpy(KWORD[7], "FOR");      strcpy(KWORD[8], "IF");
+	strcpy(KWORD[9], "ODD");      strcpy(KWORD[10], "PROCEDURE");
+	strcpy(KWORD[11], "PROGRAM"); strcpy(KWORD[12], "READ");
+	strcpy(KWORD[13], "STEP");    strcpy(KWORD[14], "THEN");
+	strcpy(KWORD[15], "UNTIL");   strcpy(KWORD[16], "VAR");
+	strcpy(KWORD[17], "WHILE");   strcpy(KWORD[18], "WRITE");
+
+	WSYM[1] = BEGINSYM;    WSYM[2] = CALLSYM;
+	WSYM[3] = CONSTSYM;    WSYM[4] = DOSYM;
+	WSYM[5] = ELSESYM;     WSYM[6] = ENDSYM;
+	WSYM[7] = FORSYM;      WSYM[8] = IFSYM;
+	WSYM[9] = ODDSYM;      WSYM[10] = PROCSYM;
+	WSYM[11] = PROGSYM;    WSYM[12] = READSYM;
+	WSYM[13] = STEPSYM;    WSYM[14] = THENSYM;
+	WSYM[15] = UNTILSYM;   WSYM[16] = VARSYM;
+	WSYM[17] = WHILESYM;   WSYM[18] = WRITESYM;
+
 	SSYM['+'] = PLUS;      SSYM['-'] = MINUS;
 	SSYM['*'] = TIMES;     SSYM['/'] = SLASH;
 	SSYM['('] = LPAREN;    SSYM[')'] = RPAREN;
 	SSYM['='] = EQL;       SSYM[','] = COMMA;
-	SSYM['.'] = PERIOD;    SSYM['#'] = NEQ;
+	SSYM['.'] = PERIOD;    //SSYM['#'] = NEQ;
 	SSYM[';'] = SEMICOLON;
 	strcpy(MNEMONIC[LIT], "LIT");   strcpy(MNEMONIC[OPR], "OPR");
 	strcpy(MNEMONIC[LOD], "LOD");   strcpy(MNEMONIC[STO], "STO");
 	strcpy(MNEMONIC[CALL], "CAL");   strcpy(MNEMONIC[INI], "INI");
 	strcpy(MNEMONIC[JMP], "JMP");   strcpy(MNEMONIC[JPC], "JPC");
 
-	DECLBEGSYS = (int*)malloc(sizeof(int) * 33);
-	STATBEGSYS = (int*)malloc(sizeof(int) * 33);
-	FACBEGSYS = (int*)malloc(sizeof(int) * 33);
-	for (int j = 0; j < 33; j++) {
+	DECLBEGSYS = (int*)malloc(sizeof(int) * __SIZE__);
+	memset(DECLBEGSYS, 0, sizeof(int) * __SIZE__);
+	STATBEGSYS = (int*)malloc(sizeof(int) * __SIZE__);
+	memset(STATBEGSYS, 0, sizeof(int) * __SIZE__);
+	FACBEGSYS = (int*)malloc(sizeof(int) * __SIZE__);
+	memset(FACBEGSYS, 0, sizeof(int) * __SIZE__);
+	
+	/*for (int j = 0; j < 33; j++) {
 		DECLBEGSYS[j] = 0;  STATBEGSYS[j] = 0;  FACBEGSYS[j] = 0;
-	}
+	}*/
 	DECLBEGSYS[CONSTSYM] = 1;
 	DECLBEGSYS[VARSYM] = 1;
 	DECLBEGSYS[PROCSYM] = 1;

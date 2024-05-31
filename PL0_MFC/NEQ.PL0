@@ -1,0 +1,9 @@
+PROGRAM EX01;
+VAR A,B;
+BEGIN
+ A:=1;
+ B:=2;
+ IF A<>B THEN WRITE(B)
+ IF A!=B THEN WRITE(B)
+END.
+

@@ -5,4 +5,16 @@ BEGIN
   READ(B);
   C:=A+B*(3+B);
   WRITE(C)
+ELSE
+FOR
+STEP
+UNTIL
+DO
+++
+--
++=
+-=
+*=
+/=
 END.
+

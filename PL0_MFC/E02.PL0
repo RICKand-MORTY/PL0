@@ -1,0 +1,10 @@
+PROGRAM EX01;
+VAR I, A;
+BEGIN
+A := 102;
+FOR I:=0 STEP I:=I + 1 UNTIL I > 102 DO 
+ BEGIN
+ A--;  
+ WRITE(A)
+ END
+END.

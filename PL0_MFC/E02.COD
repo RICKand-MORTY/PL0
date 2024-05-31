@@ -1,0 +1,17 @@
+=== COMPILE PL0 ===
+  0 PROGRAM EX01; 
+  0 VAR I, A; 
+  1 BEGIN 
+  2 A := 102; 
+  4 FOR I:=0 STEP I:=I + 1 UNTIL I > 102 DO  
+***                      ^23
+***                                    ^23
+***                                       ^20
+ 14  BEGIN 
+ 14  A--;   
+ 18  WRITE(A) 
+ 19  END 
+***    ^33
+ 21 END. 
+ERROR IN PL/0 PROGRAM
+

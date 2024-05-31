@@ -8,7 +8,7 @@ using std::string;
 BOOL List_all;
 //---------------------------------------------------------------------------
 const  int AL = 10;  /* LENGTH OF IDENTIFIERS */
-const  int NORW = 14;  /* # OF RESERVED WORDS */
+const  int NORW = 24;  /* # OF RESERVED WORDS */
 const  int TXMAX = 100;  /* LENGTH OF IDENTIFIER TABLE */
 const  int NMAX = 14;  /* MAX NUMBER OF DEGITS IN NUMBERS */
 const  int AMAX = 2047;  /* MAXIMUM ADDRESS */
@@ -21,14 +21,17 @@ typedef enum {
 	LPAREN, RPAREN, COMMA, SEMICOLON, PERIOD,
 	BECOMES, BEGINSYM, ENDSYM, IFSYM, THENSYM,
 	WHILESYM, WRITESYM, READSYM, DOSYM, CALLSYM,
-	CONSTSYM, VARSYM, PROCSYM, PROGSYM
+	CONSTSYM, VARSYM, PROCSYM, PROGSYM, ELSESYM, FORSYM, STEPSYM, UNTILSYM,
+	PLUSPLUS, DECDEC, PLUSEQL, DECEQL, MULEQL, DIVEQL, __SIZE__
 } SYMBOL;
 char* SYMOUT[] = { "NUL", "IDENT", "NUMBER", "PLUS", "MINUS", "TIMES",
 		"SLASH", "ODDSYM", "EQL", "NEQ", "LSS", "LEQ", "GTR", "GEQ",
 		"LPAREN", "RPAREN", "COMMA", "SEMICOLON", "PERIOD",
 		"BECOMES", "BEGINSYM", "ENDSYM", "IFSYM", "THENSYM",
 		"WHILESYM", "WRITESYM", "READSYM", "DOSYM", "CALLSYM",
-		"CONSTSYM", "VARSYM", "PROCSYM", "PROGSYM" };
+		"CONSTSYM", "VARSYM", "PROCSYM", "PROGSYM", "ELSESYM", "FORSYM", "STEPSYM", "UNTILSYM",
+		"PLUSPLUS", "DECDEC", "PLUSEQL", "DECEQL", "MULEQL", "DIVEQL"
+};
 typedef  int* SYMSET; // SET OF SYMBOL;
 typedef  char ALFA[11];
 typedef  enum { CONSTANT, VARIABLE, PROCEDUR } OBJECTS;
@@ -112,74 +115,78 @@ int SymIn(SYMBOL SYM, SYMSET S1) {
 	return S1[SYM];
 }
 //---------------------------------------------------------------------------
+/*合并S1和S2两个符号集*/
 SYMSET SymSetUnion(SYMSET S1, SYMSET S2) {
-	SYMSET S = (SYMSET)malloc(sizeof(int) * 33);
-	for (int i = 0; i < 33; i++)
+	SYMSET S = (SYMSET)malloc(sizeof(int) * __SIZE__);
+	for (int i = 0; i < __SIZE__; i++)
 		if (S1[i] || S2[i]) S[i] = 1;
 		else S[i] = 0;
 	return S;
 }
 //---------------------------------------------------------------------------
+/*SY加入到S中*/
 SYMSET SymSetAdd(SYMBOL SY, SYMSET S) {
 	SYMSET S1;
-	S1 = (SYMSET)malloc(sizeof(int) * 33);
-	for (int i = 0; i < 33; i++) S1[i] = S[i];
+	S1 = (SYMSET)malloc(sizeof(int) * __SIZE__);
+	for (int i = 0; i < __SIZE__; i++) S1[i] = S[i];
 	S1[SY] = 1;
 	return S1;
 }
 //---------------------------------------------------------------------------
+/*创建一个新的符号集合，其中只包含了给定的符号*/
 SYMSET SymSetNew(SYMBOL a) {
 	SYMSET S; int i, k;
-	S = (SYMSET)malloc(sizeof(int) * 33);
-	for (i = 0; i < 33; i++) S[i] = 0;
+	S = (SYMSET)malloc(sizeof(int) * __SIZE__);
+	for (i = 0; i < __SIZE__; i++) S[i] = 0;
 	S[a] = 1;
 	return S;
 }
 //---------------------------------------------------------------------------
 SYMSET SymSetNew(SYMBOL a, SYMBOL b) {
 	SYMSET S; int i, k;
-	S = (SYMSET)malloc(sizeof(int) * 33);
-	for (i = 0; i < 33; i++) S[i] = 0;
+	S = (SYMSET)malloc(sizeof(int) * __SIZE__);
+	for (i = 0; i < __SIZE__; i++) S[i] = 0;
 	S[a] = 1;  S[b] = 1;
 	return S;
 }
 //---------------------------------------------------------------------------
 SYMSET SymSetNew(SYMBOL a, SYMBOL b, SYMBOL c) {
 	SYMSET S; int i, k;
-	S = (SYMSET)malloc(sizeof(int) * 33);
-	for (i = 0; i < 33; i++) S[i] = 0;
+	S = (SYMSET)malloc(sizeof(int) * __SIZE__);
+	for (i = 0; i < __SIZE__; i++) S[i] = 0;
 	S[a] = 1;  S[b] = 1; S[c] = 1;
 	return S;
 }
 //---------------------------------------------------------------------------
 SYMSET SymSetNew(SYMBOL a, SYMBOL b, SYMBOL c, SYMBOL d) {
 	SYMSET S; int i, k;
-	S = (SYMSET)malloc(sizeof(int) * 33);
-	for (i = 0; i < 33; i++) S[i] = 0;
+	S = (SYMSET)malloc(sizeof(int) * __SIZE__);
+	for (i = 0; i < __SIZE__; i++) S[i] = 0;
 	S[a] = 1;  S[b] = 1; S[c] = 1; S[d] = 1;
 	return S;
 }
 //---------------------------------------------------------------------------
 SYMSET SymSetNew(SYMBOL a, SYMBOL b, SYMBOL c, SYMBOL d, SYMBOL e) {
 	SYMSET S; int i, k;
-	S = (SYMSET)malloc(sizeof(int) * 33);
-	for (i = 0; i < 33; i++) S[i] = 0;
+	S = (SYMSET)malloc(sizeof(int) * __SIZE__);
+	for (i = 0; i < __SIZE__; i++) S[i] = 0;
 	S[a] = 1;  S[b] = 1; S[c] = 1; S[d] = 1; S[e] = 1;
 	return S;
 }
 //---------------------------------------------------------------------------
 SYMSET SymSetNew(SYMBOL a, SYMBOL b, SYMBOL c, SYMBOL d, SYMBOL e, SYMBOL f) {
 	SYMSET S; int i, k;
-	S = (SYMSET)malloc(sizeof(int) * 33);
-	for (i = 0; i < 33; i++) S[i] = 0;
+	S = (SYMSET)malloc(sizeof(int) * __SIZE__);
+	for (i = 0; i < __SIZE__; i++) S[i] = 0;
 	S[a] = 1;  S[b] = 1; S[c] = 1; S[d] = 1; S[e] = 1; S[f] = 1;
 	return S;
 }
 //---------------------------------------------------------------------------
+/*创建一个空的符号集合*/
 SYMSET SymSetNULL() {
 	SYMSET S; int i, n, k;
-	S = (SYMSET)malloc(sizeof(int) * 33);
-	for (i = 0; i < 33; i++) S[i] = 0;
+	S = (SYMSET)malloc(sizeof(int) * __SIZE__);
+	for (i = 0; i < __SIZE__; i++) S[i] = 0;
 	return S;
 }
 //---------------------------------------------------------------------------
@@ -187,7 +194,7 @@ void Error(int n) {
 	string spaces(CC - 1, ' ');
 	string s = "***" + spaces + "^";
 	AppendTextToRichEdit(IDC_RICHEDIT21, (s + std::to_string(n) + '\n').c_str());
-	fwprintf(FOUT, L"%s%d\n", s.c_str(), n);
+	fprintf(FOUT, "%s%d\n", s.c_str(), n);
 	ERR++;
 } /*Error*/
 //---------------------------------------------------------------------------
@@ -210,7 +217,7 @@ void GetCh() {
 		while (s.length() < 3) s = " " + s;
 		s = s + " " + LINE;
 		AppendTextToRichEdit(IDC_RICHEDIT21, (s + '\n').c_str());
-		fwprintf(FOUT, L"%s\n", s.c_str());
+		fprintf(FOUT, "%s\n", s.c_str());
 	}
 	CH = LINE[CC++];
 } /*GetCh()*/
@@ -233,36 +240,143 @@ void GetSym() {
 		} while (i <= J);
 		if (i - 1 > J) SYM = WSYM[K];
 		else SYM = IDENT;
-	}
-	else
-		if (CH >= '0' && CH <= '9') { /*NUMBER*/
-			K = 0; NUM = 0; SYM = NUMBER;
-			do {
-				NUM = 10 * NUM + (CH - '0');
-				K++; GetCh();
-			} while (CH >= '0' && CH <= '9');
-			if (K > NMAX) Error(30);
+		switch (SYM)
+		{
+		case ELSESYM:
+		{
+			//AppendTextToRichEdit(IDC_RICHEDIT21, "keyword ELSE found!\n");
+			//Error(10);
+			//SYM = IDENT;
+			break;
 		}
-		else
-			if (CH == ':') {
-				GetCh();
-				if (CH == '=') { SYM = BECOMES; GetCh(); }
-				else SYM = NUL;
-			}
-			else /* THE FOLLOWING TWO CHECK WERE ADDED
+		case FORSYM:
+		{
+			//AppendTextToRichEdit(IDC_RICHEDIT21, "keyword FOR found!\n");
+			//Error(10);
+			//SYM = IDENT;
+			break;
+		}
+		case STEPSYM:
+		{
+			//AppendTextToRichEdit(IDC_RICHEDIT21, "keyword STEP found!\n");
+			//Error(10);
+			//SYM = IDENT;
+			break;
+		}
+		case UNTILSYM:
+		{
+			//AppendTextToRichEdit(IDC_RICHEDIT21, "keyword UNTIL found!\n");
+			//Error(10);
+			//SYM = IDENT;
+			break;
+		}
+		case DOSYM:
+		{
+			//AppendTextToRichEdit(IDC_RICHEDIT21, "keyword DO found!\n");
+			break;
+		}
+		}
+	}
+	else if (CH >= '0' && CH <= '9') 
+	{ /*NUMBER*/
+		K = 0; NUM = 0; SYM = NUMBER;
+		do {
+			NUM = 10 * NUM + (CH - '0');
+			K++; GetCh();
+		} while (CH >= '0' && CH <= '9');
+		if (K > NMAX) Error(30);
+	}
+	else if (CH == ':') 
+	{
+		GetCh();
+		if (CH == '=') { SYM = BECOMES; GetCh(); }
+		else SYM = NUL;
+	}
+	/* THE FOLLOWING TWO CHECK WERE ADDED
 				   BECAUSE ASCII DOES NOT HAVE A SINGLE CHARACTER FOR <= OR >= */
-				if (CH == '<') {
-					GetCh();
-					if (CH == '=') { SYM = LEQ; GetCh(); }
-					else SYM = LSS;
-				}
-				else
-					if (CH == '>') {
-						GetCh();
-						if (CH == '=') { SYM = GEQ; GetCh(); }
-						else SYM = GTR;
-					}
-					else { SYM = SSYM[CH]; GetCh(); }
+	else if (CH == '<') 
+	{
+		GetCh();
+		if (CH == '=') { SYM = LEQ; GetCh(); }
+		if (CH == '>')
+		{ 
+			//AppendTextToRichEdit(IDC_RICHEDIT21, "operator <> found!\n");
+			SYM = NEQ; 
+			GetCh(); 
+		}
+		else SYM = LSS;
+	}
+	else if (CH == '>') 
+	{
+		GetCh();
+		if (CH == '=') { SYM = GEQ; GetCh(); }
+		else SYM = GTR;
+	}
+	else if (CH == '+')
+	{
+		GetCh();
+		if (CH == '+')
+		{
+			//AppendTextToRichEdit(IDC_RICHEDIT21, "operator ++ found!\n");
+			SYM = PLUSPLUS;
+			GetCh();
+		}
+		else if (CH == '=')
+		{
+			//AppendTextToRichEdit(IDC_RICHEDIT21, "operator += found!\n");
+			SYM = PLUSEQL;
+			GetCh();
+		}
+		else SYM = PLUS;
+	}
+	else if (CH == '-')
+	{
+		GetCh();
+		if (CH == '-')
+		{
+			//AppendTextToRichEdit(IDC_RICHEDIT21, "operator -- found!\n");
+			SYM = DECDEC;
+			//Error(17);
+			//SYM = SSYM[CH];			//让词法分析能继续
+			GetCh();
+		}
+		else if (CH == '=')
+		{
+			//AppendTextToRichEdit(IDC_RICHEDIT21, "operator -= found!\n");
+			SYM = DECEQL;
+			//Error(17);
+			//SYM = SSYM[CH];
+			GetCh();
+		}
+		else SYM = MINUS;
+	}
+	else if (CH == '*')
+	{
+		GetCh();
+		if (CH == '=')
+		{
+			//AppendTextToRichEdit(IDC_RICHEDIT21, "operator *= found!\n");
+			SYM = MULEQL;
+			//Error(17);
+			//SYM = SSYM[CH];
+			GetCh();
+		}
+		else SYM = TIMES;
+	}
+	else if (CH == '/')
+	{
+		GetCh();
+		if (CH == '=')
+		{
+			//AppendTextToRichEdit(IDC_RICHEDIT21, "operator /= found!\n");
+			SYM = DIVEQL;
+			//Error(17);
+			//SYM = SSYM[CH];
+			GetCh();
+		}
+		else SYM = SLASH;
+	}
+	else { SYM = SSYM[CH]; GetCh(); }
 } /*GetSym()*/
 //---------------------------------------------------------------------------
 void GEN(FCT X, int Y, int Z) {
@@ -300,6 +414,13 @@ void ENTER(OBJECTS K, int LEV, int& TX, int& DX) { /*ENTER OBJECT INTO TABLE*/
 	}
 } /*ENTER*/
 //---------------------------------------------------------------------------
+/*
+在符号表中查找指定的标识符,
+用于确定标识符是否已经声明，并获取其对应的符号表索引
+@ID:要查找的标识符
+@TX:当前符号表索引
+retn:ID在符号表的索引
+*/
 int PPOSITION(ALFA ID, int TX) { /*FIND IDENTIFIER IN TABLE*/
 	int i = TX;
 	strcpy(TABLE[0].NAME, ID);
@@ -333,12 +454,18 @@ void ListCode(int CX0) {  /*LIST CODE GENERATED FOR THIS Block*/
 			while (s.length() < 3)s = " " + s;
 			s = s + " " + MNEMONIC[CODE[i].F] + " " + std::to_string(CODE[i].L) + " " + std::to_string(CODE[i].A);
 			AppendTextToRichEdit(IDC_RICHEDIT21, (s + '\n').c_str());
-			fwprintf(FOUT, L"%3d%5s%4d%4d\n", i, MNEMONIC[CODE[i].F], CODE[i].L, CODE[i].A);
+			fprintf(FOUT, "%3d%5s%4d%4d\n", i, MNEMONIC[CODE[i].F], CODE[i].L, CODE[i].A);
 		}
 } /*ListCode()*/;
 //---------------------------------------------------------------------------
+/*
+@FSYS:合法的符号集
+@LEV:当前层次
+@TX:符号表的索引
+*/
 void FACTOR(SYMSET FSYS, int LEV, int& TX) {
 	int i;
+	// 检查当前符号是否在因子的开始符号集合中
 	TEST(FACBEGSYS, FSYS, 24);
 	while (SymIn(SYM, FACBEGSYS)) {
 		if (SYM == IDENT) {
@@ -351,18 +478,41 @@ void FACTOR(SYMSET FSYS, int LEV, int& TX) {
 				case PROCEDUR: Error(21); break;
 				}
 			GetSym();
+			/*处理表达式的i++和i--*/
+			if (SYM == PLUSPLUS)
+			{
+				GEN(LIT, 0, 1);
+				GEN(OPR, 0, 2);
+				GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+				//用修改前的值参与运算
+				GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+				GEN(LIT, 0, 1);
+				GEN(OPR, 0, 3);
+				GetSym();
+			}
+			else if (SYM == DECDEC)
+			{
+				GEN(LIT, 0, 1);
+				GEN(OPR, 0, 3);
+				GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+				//同上
+				GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+				GEN(LIT, 0, 1);
+				GEN(OPR, 0, 2);
+				GetSym();
+			}
 		}
-		else
-			if (SYM == NUMBER) {
+		else if (SYM == NUMBER)
+		{
 				if (NUM > AMAX) { Error(31); NUM = 0; }
 				GEN(LIT, 0, NUM); GetSym();
-			}
-			else
-				if (SYM == LPAREN) {
-					GetSym(); EXPRESSION(SymSetAdd(RPAREN, FSYS), LEV, TX);
-					if (SYM == RPAREN) GetSym();
-					else Error(22);
-				}
+		}
+		else if (SYM == LPAREN) 
+		{
+				GetSym(); EXPRESSION(SymSetAdd(RPAREN, FSYS), LEV, TX);
+				if (SYM == RPAREN) GetSym();
+				else Error(22);
+		}
 		TEST(FSYS, FACBEGSYS, 23);
 	}
 }/*FACTOR*/
@@ -380,17 +530,60 @@ void TERM(SYMSET FSYS, int LEV, int& TX) {  /*TERM*/
 //---------------------------------------------------------------------------
 void EXPRESSION(SYMSET FSYS, int LEV, int& TX) {
 	SYMBOL ADDOP;
+	int i = 0;
 	if (SYM == PLUS || SYM == MINUS) {
 		ADDOP = SYM; GetSym();
 		TERM(SymSetUnion(FSYS, SymSetNew(PLUS, MINUS)), LEV, TX);
-		if (ADDOP == MINUS) GEN(OPR, 0, 1);
+		if (ADDOP == MINUS) GEN(OPR, 0, 1);/*减号取反*/
+	}
+	else if (SYM == PLUSPLUS)
+	{   /* ++i */
+		GetSym();
+		if (SYM == IDENT) {
+			i = PPOSITION(ID, TX);
+			if (i == 0) Error(11);
+			else if (TABLE[i].KIND != VARIABLE) {
+				Error(12);
+				i = 0;
+			}
+			if (i != 0) GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			GEN(LIT, 0, 1);
+			GEN(OPR, 0, 2);
+			if (i != 0) {
+				GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+				GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			}
+			GetSym();
+		}
+		else Error(45);
+	}
+	else if (SYM == DECDEC) {     
+		/* --i */
+		GetSym();
+		if (SYM == IDENT) {
+			i = PPOSITION(ID, TX);
+			if (i == 0) Error(11);
+			else if (TABLE[i].KIND != VARIABLE) {
+				Error(12);
+				i = 0;
+			}
+			if (i != 0) GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			GEN(LIT, 0, 1);
+			GEN(OPR, 0, 3);
+			if (i != 0) {
+				GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+				GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			}
+			GetSym();
+		}
+		else Error(45);
 	}
 	else TERM(SymSetUnion(FSYS, SymSetNew(PLUS, MINUS)), LEV, TX);
 	while (SYM == PLUS || SYM == MINUS) {
 		ADDOP = SYM; GetSym();
 		TERM(SymSetUnion(FSYS, SymSetNew(PLUS, MINUS)), LEV, TX);
-		if (ADDOP == PLUS) GEN(OPR, 0, 2);
-		else GEN(OPR, 0, 3);
+		if (ADDOP == PLUS) GEN(OPR, 0, 2);	
+		else GEN(OPR, 0, 3);	
 	}
 } /*EXPRESSION*/
 //---------------------------------------------------------------------------
@@ -414,44 +607,155 @@ void CONDITION(SYMSET FSYS, int LEV, int& TX) {
 	}
 } /*CONDITION*/
 //---------------------------------------------------------------------------
+/*
+语法分析
+@FSYS 符号集合，用于指定在语句分析过程中可以接受的符号
+@LEV 当前代码块的层次(静态层次)
+@TX 符号表索引的引用,符号表用于存储程序中的标识符及其属性
+*/
 void STATEMENT(SYMSET FSYS, int LEV, int& TX) {   /*STATEMENT*/
-	int i, CX1, CX2;
+	int i, CX1, CX2, CX3;
+	BOOL then_no = FALSE;
 	switch (SYM) {
-	case IDENT:
-		i = PPOSITION(ID, TX);
-		if (i == 0) Error(11);
-		else
-			if (TABLE[i].KIND != VARIABLE) { /*ASSIGNMENT TO NON-VARIABLE*/
+	case IDENT: /*标识符*/
+		i = PPOSITION(ID, TX);	/* 查找标识符在符号表中的位置 */
+		if (i == 0) Error(11);	/* 标识符未声明 */
+		else if (TABLE[i].KIND != VARIABLE) 
+		{ /* 赋值给非变量 */
 				Error(12); i = 0;
+		}
+		GetSym();
+		if (SYM == BECOMES) 
+		{
+			/* 处理 = */
+			GetSym();
+			EXPRESSION(FSYS, LEV, TX);		/* 处理表达式 */
+			/* 生成存储指令 */
+			if (i != 0) GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+		}
+		else if(SYM == MULEQL)
+		{
+			/* 处理 *= */
+			GetSym();
+			EXPRESSION(FSYS, LEV, TX);
+			if (i != 0)
+			{
+				GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+				GEN(OPR, 0, 4);
+				GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);  /* 存储结果 */
 			}
-		GetSym();
-		if (SYM == BECOMES) GetSym();
-		else Error(13);
-		EXPRESSION(FSYS, LEV, TX);
-		if (i != 0) GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+		}
+		else if (SYM == PLUSPLUS)
+		{
+			/* i++ */
+			if (i != 0)
+			{
+				GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+				GEN(LIT, 0, 1);
+				GEN(OPR, 0, 2);
+				GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			}
+			else
+			{
+				Error(11);		//标识符未声明
+			}
+			GetSym();
+		}
+		else if (SYM == DECDEC)
+		{
+			/* i-- */
+			if (i != 0)
+			{
+				GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+				GEN(LIT, 0, 1);
+				GEN(OPR, 0, 3);
+				GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			}
+			else
+			{
+				Error(11);		//标识符未声明
+			}
+			GetSym();
+		}
+		else if (SYM == DIVEQL)
+		{
+			/* 处理 /= */
+			/*必须先入栈，否则除数与被除数颠倒了*/
+			GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);	
+			GetSym();
+			EXPRESSION(FSYS, LEV, TX);
+			if (i != 0)
+			{
+				/* 执行除法操作 */
+				GEN(OPR, 0, 5);
+				GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			}
+		}
+		else Error(13);					/* 缺少符号 */
 		break;
-	case READSYM:
+	case PLUSPLUS:
+		/* ++i */
 		GetSym();
-		if (SYM != LPAREN) Error(34);
+		if (SYM == IDENT) 
+		{
+			i = PPOSITION(ID, TX);
+			if (i == 0) Error(11);
+			else if (TABLE[i].KIND != VARIABLE) 
+			{
+				Error(12);
+				i = 0;
+			}
+			if (i != 0) GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			GEN(LIT, 0, 1);
+			GEN(OPR, 0, 2);
+			if (i != 0) GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			GetSym();
+		}
+		else Error(45);
+		break;
+	case DECDEC:
+		GetSym();
+		if (SYM == IDENT) 
+		{
+			i = PPOSITION(ID, TX);
+			if (i == 0) Error(11);
+			else if (TABLE[i].KIND != VARIABLE) 
+			{
+				Error(12);
+				i = 0;
+			}
+			if (i != 0) GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			GEN(LIT, 0, 1);
+			GEN(OPR, 0, 3);
+			if (i != 0) GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			GetSym();
+		}
+		else Error(45);
+		break;
+	case READSYM:	/*read*/
+		GetSym();
+		if (SYM != LPAREN) Error(34);		/* 缺少左括号 */
 		else
 			do {
 				GetSym();
-				if (SYM == IDENT) i = PPOSITION(ID, TX);
+				if (SYM == IDENT) i = PPOSITION(ID, TX);	/* 查找标识符 */
 				else i = 0;
-				if (i == 0) Error(35);
+				if (i == 0) Error(35);						/* 标识符未声明 */
 				else {
-					GEN(OPR, 0, 16);
+					GEN(OPR, 0, 16);						/* 生成读指令 */
+					/* 生成存储指令 */
 					GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
 				}
 				GetSym();
-			} while (SYM == COMMA);
+			} while (SYM == COMMA);				/* 处理逗号分隔的标识符 */
 			if (SYM != RPAREN) {
 				Error(33);
+				/* 跳过错误直到找到合法符号 */
 				while (!SymIn(SYM, FSYS)) GetSym();
 			}
 			else GetSym();
 			break; /* READSYM */
-	case WRITESYM:
+	case WRITESYM:		
 		GetSym();
 		if (SYM == LPAREN) {
 			do {
@@ -462,16 +766,18 @@ void STATEMENT(SYMSET FSYS, int LEV, int& TX) {   /*STATEMENT*/
 			if (SYM != RPAREN) Error(33);
 			else GetSym();
 		}
+		/* 换行? */
 		GEN(OPR, 0, 15);
 		break; /*WRITESYM*/
-	case CALLSYM:
+	case CALLSYM:	/* 调用过程语句 */
 		GetSym();
-		if (SYM != IDENT) Error(14);
+		if (SYM != IDENT) Error(14);	/* 缺少标识符 */
 		else {
-			i = PPOSITION(ID, TX);
-			if (i == 0) Error(11);
+			i = PPOSITION(ID, TX);	/* 查找标识符 */
+			if (i == 0) Error(11);	/* 标识符未声明 */
 			else
 				if (TABLE[i].KIND == PROCEDUR)
+					/* 生成调用指令 */
 					GEN(FCT::CALL, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
 				else Error(15);
 			GetSym();
@@ -479,43 +785,164 @@ void STATEMENT(SYMSET FSYS, int LEV, int& TX) {   /*STATEMENT*/
 		break;
 	case IFSYM:
 		GetSym();
+		/* 处理条件 */
 		CONDITION(SymSetUnion(SymSetNew(THENSYM, DOSYM), FSYS), LEV, TX);
-		if (SYM == THENSYM) GetSym();
-		else Error(16);
-		CX1 = CX;  GEN(JPC, 0, 0);
-		STATEMENT(FSYS, LEV, TX);  CODE[CX1].A = CX;
+		if (SYM == THENSYM)
+		{
+			GetSym();
+			CX1 = CX;  /* 记录当前代码索引，用于之后的回填 */
+			GEN(JPC, 0, 0);	 /* THEN的跳转,到ELSE */
+			if (SYM != ELSESYM)
+			{
+				STATEMENT(FSYS, LEV, TX);
+			}
+			else
+			{
+				then_no = TRUE;
+			}
+		}
+		else Error(16);	/* 缺少then */
+		if (!then_no)
+		{
+			GetSym();  /* 找ELSE */
+		}
+		if (SYM == ELSESYM)
+		{
+			CX2 = CX;	/* 记录else语句前的代码索引 */
+			GEN(JMP, 0, 0);
+			CODE[CX1].A = CX;	/* 回填跳转地址，将跳转目标设置为then后 */
+			if (SYM == ELSESYM) { /* 如果遇到else关键字 */
+				GetSym(); /* 读取下一个符号 */
+				STATEMENT(FSYS, LEV, TX); /* 处理else后面的语句 */
+			}
+			CODE[CX2].A = CX; /* 回填无条件跳转指令的目标地址 */
+		}
+		else
+		{
+			CODE[CX1].A = CX;	/* 没有跟ELSE */
+			STATEMENT(FSYS, LEV, TX);
+		}
 		break;
+	case FORSYM:  /* FOR循环语句 */
+		GetSym();
+		if (SYM != IDENT) Error(14);  /* 缺少标识符 */
+		else {
+			i = PPOSITION(ID, TX);  /* 查找标识符 */
+			if (i == 0) Error(11);  /* 标识符未声明 */
+			else if (TABLE[i].KIND != VARIABLE) {  /* 赋值给非变量 */
+				Error(12); i = 0;
+			}
+			GetSym();
+			if (SYM == BECOMES) {  /* 处理赋值符号:= */
+				GetSym();
+				EXPRESSION(SymSetUnion(SymSetNew(STEPSYM), FSYS), LEV, TX);  /* 处理表达式 */
+				/* 生成存储指令 */
+				if (i != 0) GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			}
+			else
+			{
+				Error(13);  /* 缺少赋值符号:= */
+			}
+			if (SYM == STEPSYM) {  /* 处理步长关键字STEP */
+				GetSym();
+				CX1 = CX;
+				GEN(JMP, 0, 0);		/*第一次不走STEP*/
+				CX3 = CX;
+				if (SYM == IDENT)
+				{
+					i = PPOSITION(ID, TX);  /* 查找标识符 */
+					if (i == 0) Error(11);  /* 标识符未声明 */
+					else if (TABLE[i].KIND != VARIABLE) {  /* 赋值给非变量 */
+						Error(12); i = 0;
+					}
+					GetSym();
+					if (SYM == BECOMES) {  /* 处理赋值符号:= */
+						GetSym();
+						EXPRESSION(SymSetUnion(SymSetNew(UNTILSYM), FSYS), LEV, TX);  /* 处理表达式 */
+						if (i != 0) GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);	/*入栈(写回)*/
+					}
+					else
+					{
+						Error(13);
+					}
+				}
+				else
+				{
+					Error(14);
+				}
+			}
+			else
+			{
+				Error(20);  /* 缺少步长关键字STEP */
+			}
+			if (SYM == UNTILSYM) {  /* 处理终止条件关键字UNTIL */
+				GetSym();
+				CODE[CX1].A = CX;	/*回填STEP前的JMP*/
+				CONDITION(SymSetUnion(SymSetNew(DOSYM), FSYS), LEV, TX);  /* 处理终止条件 */
+				GEN(OPR, 0, 17);		/*取反，因为是UNTIL, 17是新定义的非运算*/
+				/* 生成条件跳转指令，这里会跳到循环结束 */
+				CX2 = CX; 
+				GEN(JPC, 0, 0);	
+			}
+			else
+			{
+				Error(21);  /* 缺少终止条件关键字UNTIL */
+			}
+			if (SYM == DOSYM) {  /* 处理DO关键字 */
+				GetSym();
+				STATEMENT(FSYS, LEV, TX);  /* 处理DO后面的语句 */
+				/* 生成无条件跳转指令，跳转到STEP */
+				GEN(JMP, 0, CX3);	
+				/* 回填跳转地址，将跳转目标设置为DO后面的语句 */
+				CODE[CX2].A = CX;
+			}
+			else Error(18);  /* 缺少DO关键字 */
+		}
+		break;
+
 	case BEGINSYM:
 		GetSym();
+		/* 处理第一个语句 */
 		STATEMENT(SymSetUnion(SymSetNew(SEMICOLON, ENDSYM), FSYS), LEV, TX);
 		while (SymIn(SYM, SymSetAdd(SEMICOLON, STATBEGSYS))) {
-			if (SYM == SEMICOLON) GetSym();
-			else Error(10);
+			/* 处理语句序列 */
+			if (SYM == SEMICOLON) GetSym();	 /* 处理分号 */
+			else Error(10);		/* 缺少分号 */
+			/* 处理下一个语句 */
 			STATEMENT(SymSetUnion(SymSetNew(SEMICOLON, ENDSYM), FSYS), LEV, TX);
 		}
 		if (SYM == ENDSYM) GetSym();
-		else Error(17);
+		else Error(17);	/* 缺少end */
 		break;
 	case WHILESYM:
 		CX1 = CX; GetSym(); CONDITION(SymSetAdd(DOSYM, FSYS), LEV, TX);
-		CX2 = CX; GEN(JPC, 0, 0);
+		CX2 = CX; GEN(JPC, 0, 0);	 /* 条件跳转 */
 		if (SYM == DOSYM) GetSym();
-		else Error(18);
+		else Error(18);				/* 缺少do */
 		STATEMENT(FSYS, LEV, TX);
 		GEN(JMP, 0, CX1);
-		CODE[CX2].A = CX;
+		CODE[CX2].A = CX;		/* 回填跳转地址 */
 		break;
 	}
-	TEST(FSYS, SymSetNULL(), 19);
+	TEST(FSYS, SymSetNULL(), 19);		/* 测试符号集合，检查语句结束 */
 } /*STATEMENT*/
 //---------------------------------------------------------------------------
+/*
+LEV表示当前代码块的层次
+TX是符号表当前的索引
+FSYS是跟随符号集合
+*/
 void Block(int LEV, int TX, SYMSET FSYS) {
+	/*数据分配索引，用于变量声明时分配内存地址,012给SL DL RA*/
 	int DX = 3;    /*DATA ALLOCATION INDEX*/
 	int TX0 = TX;  /*INITIAL TABLE INDEX*/
 	int CX0 = CX;  /*INITIAL CODE INDEX*/
+	// 设置跳转指令，用于过程调用
 	TABLE[TX].vp.ADR = CX; GEN(JMP, 0, 0);
+	// 检查当前块的嵌套层次是否超过最大允许值
 	if (LEV > LEVMAX) Error(32);
 	do {
+		// 处理常量声明
 		if (SYM == CONSTSYM) {
 			GetSym();
 			do {
@@ -527,6 +954,7 @@ void Block(int LEV, int TX, SYMSET FSYS) {
 				else Error(5);
 			} while (SYM == IDENT);
 		}
+		// 处理变量声明
 		if (SYM == VARSYM) {
 			GetSym();
 			do {
@@ -536,6 +964,7 @@ void Block(int LEV, int TX, SYMSET FSYS) {
 				else Error(5);
 			} while (SYM == IDENT);
 		}
+		//过程
 		while (SYM == PROCSYM) {
 			GetSym();
 			if (SYM == IDENT) { ENTER(PROCEDUR, LEV, TX, DX); GetSym(); }
@@ -549,15 +978,22 @@ void Block(int LEV, int TX, SYMSET FSYS) {
 			}
 			else Error(5);
 		}
+		// 检查当前符号是否合法
 		TEST(SymSetAdd(IDENT, STATBEGSYS), DECLBEGSYS, 7);
 	} while (SymIn(SYM, DECLBEGSYS));
+	// 回填跳转地址
 	CODE[TABLE[TX0].vp.ADR].A = CX;
+	// 设置代码段的起始地址和数据段的大小
 	TABLE[TX0].vp.ADR = CX;   /*START ADDR OF CODE*/
 	TABLE[TX0].vp.SIZE = DX;  /*SIZE OF DATA SEGMENT*/
+	// 生成初始化指令
 	GEN(INI, 0, DX);
 	STATEMENT(SymSetUnion(SymSetNew(SEMICOLON, ENDSYM), FSYS), LEV, TX);
+	// 生成返回指令
 	GEN(OPR, 0, 0);  /*RETURN*/
+	// 检查符号集合
 	TEST(FSYS, SymSetNULL(), 8);
+	// 列出生成的代码
 	ListCode(CX0);
 } /*Block*/
 //---------------------------------------------------------------------------
@@ -587,7 +1023,7 @@ void Interpret() {
 			case 2: T--; S[T] = S[T] + S[T + 1];   break;
 			case 3: T--; S[T] = S[T] - S[T + 1];   break;
 			case 4: T--; S[T] = S[T] * S[T + 1];   break;
-			case 5: T--; S[T] = S[T] % S[T + 1]; break;
+			case 5: T--; S[T] = S[T] / S[T + 1]; break;
 			case 6: S[T] = (S[T] % 2 != 0);        break;
 			case 8: T--; S[T] = S[T] == S[T + 1];  break;
 			case 9: T--; S[T] = S[T] != S[T + 1];  break;
@@ -602,6 +1038,7 @@ void Interpret() {
 				AppendTextToRichEdit(IDC_RICHEDIT21, ("? " + std::to_string(S[T] + '\n')).c_str());
 				fwprintf(FOUT, L"? %d\n", S[T]);
 				break;
+			case 17: S[T] = !S[T]; break;
 			}
 			break;
 		case LOD: T++; S[T] = S[BASE(I.L, B, S) + I.A]; break;

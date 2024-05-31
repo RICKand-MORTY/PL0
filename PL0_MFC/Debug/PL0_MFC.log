@@ -1,0 +1,125 @@
+﻿  pch.cpp
+  DLG.cpp
+  PL0_MFC.cpp
+  PL0_MFCDlg.cpp
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(4,1): warning C4603: “_CRT_SECURE_NO_WARNINGS”: 未定义宏或在预编译头使用后定义发生改变
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(4,1):
+  将宏添加到预编译头中，而不是在此处定义
+  C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(5,1):
+  使用预编译头
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(135,19): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(143,19): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(151,19): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(159,19): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(167,19): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(175,19): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(183,22): warning C4101: “k”: 未引用的局部变量
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(183,19): warning C4101: “n”: 未引用的局部变量
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(193,17): warning C4477: “fwprintf”: 格式字符串“%s”需要类型“wchar_t *”的参数，但可变参数 1 拥有了类型“const _Elem *”
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(193,17): warning C4477:         with
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(193,17): warning C4477:         [
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(193,17): warning C4477:             _Elem=char
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(193,17): warning C4477:         ]
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(193,17):
+  请考虑在格式字符串中使用“%hs”
+  C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(193,17):
+  请考虑在格式字符串中使用“%Ts”
+  C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(193,17):
+  Visual C++ 使用非标准语义时会出现此警告
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(216,18): warning C4477: “fwprintf”: 格式字符串“%s”需要类型“wchar_t *”的参数，但可变参数 1 拥有了类型“const _Elem *”
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(216,18): warning C4477:         with
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(216,18): warning C4477:         [
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(216,18): warning C4477:             _Elem=char
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(216,18): warning C4477:         ]
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(216,18):
+  请考虑在格式字符串中使用“%hs”
+  C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(216,18):
+  请考虑在格式字符串中使用“%Ts”
+  C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(216,18):
+  Visual C++ 使用非标准语义时会出现此警告
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(231,3): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(398,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(415,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(446,19): warning C4477: “fwprintf”: 格式字符串“%5s”需要类型“wchar_t *”的参数，但可变参数 2 拥有了类型“char *”
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(446,19):
+  请考虑在格式字符串中使用“%hs”
+  C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(446,19):
+  请考虑在格式字符串中使用“%Ts”
+  C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0.h(446,19):
+  Visual C++ 使用非标准语义时会出现此警告
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(175,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(176,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(177,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(178,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(179,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(180,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(181,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(182,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(183,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(201,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(202,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(203,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(204,2): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(233,13): error C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+C:\Users\MSI-NB\Desktop\dis\新建文件夹\PL0\PL0_MFC\PL0_MFCDlg.cpp(234,10): error C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  (编译源文件“/PL0_MFCDlg.cpp”)
+  
+  正在生成代码...

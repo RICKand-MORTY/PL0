@@ -1,0 +1,25 @@
+=== COMPILE PL0 ===
+  0 PROGRAM EX01; 
+  0 VAR A, B, C, D, E; 
+  1 BEGIN 
+  2   A := 10; 
+  4   B := 11; 
+  6   D:=5; 
+  8   E:=20; 
+ 10   IF A < B THEN 
+ 13 IF A > B THEN 
+ 17    WRITE(1); 
+ 21 ELSE 
+ 22     C := B - A; 
+ 26     D*= B; 
+ 30     E/= A;  
+ 34   WRITE(C); 
+ 37   WRITE(D); 
+ 40   WRITE(E); 
+ 43 END. 
+~~~ RUN PL0 ~~~
+1
+55
+2
+~~~ END PL0 ~~~
+

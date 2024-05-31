@@ -1,0 +1,18 @@
+PROGRAM EX01;
+VAR A, B, C, D, E;
+BEGIN
+  A := 10;
+  B := 11;
+  D:=5;
+  E:=20;
+  IF A < B THEN
+IF A > B THEN
+   WRITE(1);
+ELSE
+    C := B - A;
+    D*= B;
+    E/= A; 
+  WRITE(C);
+  WRITE(D);
+  WRITE(E);
+END.
