@@ -1,0 +1,24 @@
+=== COMPILE PL0 ===
+  0 PROGRAM EX01; 
+  0 VAR I, A[10]; 
+  1 BEGIN 
+  3 A[1]:=1; 
+  6 A[0]:=1; 
+  9 FOR I:=2 STEP I:=I + 1 UNTIL I >10 DO 
+ 21 BEGIN 
+ 21 A[I]:=A[I-1] + A[I-2]; 
+ 32 WRITE(A[I]); 
+ 36 END 
+ 36 END. 
+~~~ RUN PL0 ~~~
+2
+3
+5
+8
+13
+21
+34
+55
+89
+~~~ END PL0 ~~~
+

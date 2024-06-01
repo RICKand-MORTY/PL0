@@ -1,19 +1,22 @@
 === COMPILE PL0 ===
   0 PROGRAM EX01; 
-  0 VAR A,B,C; 
+  0 CONST D=1; 
+  1 VAR A,B,C; 
   1 BEGIN 
   2 A:=1; 
   4 B:=2; 
   6 C:=++A+B++; 
- 20 WRITE(A); 
- 23 WRITE(B); 
- 26 WRITE(C); 
- 29 A++; 
- 33 ++B; 
- 37 WRITE(A); 
- 40 WRITE(B); 
- 43 END. 
+ 20 WRITE(D); 
+ 23 WRITE(A); 
+ 26 WRITE(B); 
+ 29 WRITE(C); 
+ 32 A++; 
+ 36 ++B; 
+ 40 WRITE(A); 
+ 43 WRITE(B); 
+ 46 END. 
 ~~~ RUN PL0 ~~~
+1
 2
 3
 4

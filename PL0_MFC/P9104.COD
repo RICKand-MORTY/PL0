@@ -1,0 +1,44 @@
+=== COMPILE PL0 ===
+  0 PROGRAM MAIN; 
+  0 CONST A=10; 
+  1 VAR B,C; 
+  1 PROCEDURE P; 
+  1 VAR D; 
+  2  PROCEDURE Q; 
+  2  CONST E=5; VAR F; 
+  3   PROCEDURE R; 
+  3   VAR G; 
+  4   BEGIN G:=A+E; F:=G; 
+ 11     WRITE(G) 
+ 13   END; 
+ 15  BEGIN CALL R; WRITE(F); 
+ 20    F:=A+E*F; WRITE(F,D) 
+ 30  END; 
+ 32 BEGIN D:=A+B; WRITE(D); CALL Q END; 
+ 42 PROCEDURE S; 
+ 42 BEGIN CALL P; B:=-10; WRITE(B) END; 
+ 52 BEGIN 
+ 53   B:=8; 
+ 55   READ(C); 
+ 57   WHILE C>0 DO 
+ 61     BEGIN 
+ 61       WRITE(B); CALL S; 
+ 65       B:=B+C; WRITE(B); 
+ 72       READ(C) 
+ 74     END; 
+ 75   CALL P 
+ 76 END. 
+~~~ RUN PL0 ~~~
+? 8
+8
+18
+15
+15
+85
+18
+-10
+-20
+? -20
+-15
+~~~ END PL0 ~~~
+

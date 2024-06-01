@@ -197,11 +197,14 @@ void CPL0MFCDlg::OnBnClickedButton1()
 	SSYM['('] = LPAREN;    SSYM[')'] = RPAREN;
 	SSYM['='] = EQL;       SSYM[','] = COMMA;
 	SSYM['.'] = PERIOD;    //SSYM['#'] = NEQ;
-	SSYM[';'] = SEMICOLON;
+	SSYM[';'] = SEMICOLON; SSYM['['] = LEFTSB;
+	SSYM[']'] = RIGHTSB;
 	strcpy(MNEMONIC[LIT], "LIT");   strcpy(MNEMONIC[OPR], "OPR");
 	strcpy(MNEMONIC[LOD], "LOD");   strcpy(MNEMONIC[STO], "STO");
 	strcpy(MNEMONIC[CALL], "CAL");   strcpy(MNEMONIC[INI], "INI");
 	strcpy(MNEMONIC[JMP], "JMP");   strcpy(MNEMONIC[JPC], "JPC");
+	strcpy(MNEMONIC[MEM], "MEM");  strcpy(MNEMONIC[STOS], "STOS");
+	strcpy(MNEMONIC[LODS], "LODS");
 
 	DECLBEGSYS = (int*)malloc(sizeof(int) * __SIZE__);
 	memset(DECLBEGSYS, 0, sizeof(int) * __SIZE__);

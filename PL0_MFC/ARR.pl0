@@ -1,0 +1,11 @@
+PROGRAM EX01;
+VAR I, A[10];
+BEGIN
+A[1]:=1;
+A[0]:=1;
+FOR I:=2 STEP I:=I + 1 UNTIL I >10 DO
+BEGIN
+A[I]:=A[I-1] + A[I-2];
+WRITE(A[I]);
+END
+END.

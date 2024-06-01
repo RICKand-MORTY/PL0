@@ -1,9 +1,11 @@
 PROGRAM EX01;
+CONST D=1;
 VAR A,B,C;
 BEGIN
 A:=1;
 B:=2;
 C:=++A+B++;
+WRITE(D);
 WRITE(A);
 WRITE(B);
 WRITE(C);

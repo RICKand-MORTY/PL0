@@ -22,7 +22,7 @@ typedef enum {
 	BECOMES, BEGINSYM, ENDSYM, IFSYM, THENSYM,
 	WHILESYM, WRITESYM, READSYM, DOSYM, CALLSYM,
 	CONSTSYM, VARSYM, PROCSYM, PROGSYM, ELSESYM, FORSYM, STEPSYM, UNTILSYM,
-	PLUSPLUS, DECDEC, PLUSEQL, DECEQL, MULEQL, DIVEQL, __SIZE__
+	PLUSPLUS, DECDEC, PLUSEQL, DECEQL, MULEQL, DIVEQL, ARRAYSYM, LEFTSB, RIGHTSB, __SIZE__
 } SYMBOL;
 char* SYMOUT[] = { "NUL", "IDENT", "NUMBER", "PLUS", "MINUS", "TIMES",
 		"SLASH", "ODDSYM", "EQL", "NEQ", "LSS", "LEQ", "GTR", "GEQ",
@@ -30,12 +30,12 @@ char* SYMOUT[] = { "NUL", "IDENT", "NUMBER", "PLUS", "MINUS", "TIMES",
 		"BECOMES", "BEGINSYM", "ENDSYM", "IFSYM", "THENSYM",
 		"WHILESYM", "WRITESYM", "READSYM", "DOSYM", "CALLSYM",
 		"CONSTSYM", "VARSYM", "PROCSYM", "PROGSYM", "ELSESYM", "FORSYM", "STEPSYM", "UNTILSYM",
-		"PLUSPLUS", "DECDEC", "PLUSEQL", "DECEQL", "MULEQL", "DIVEQL"
+		"PLUSPLUS", "DECDEC", "PLUSEQL", "DECEQL", "MULEQL", "DIVEQL", "ARRAYSYM", "LEFTSB", "RIGHTSB"
 };
 typedef  int* SYMSET; // SET OF SYMBOL;
 typedef  char ALFA[11];
-typedef  enum { CONSTANT, VARIABLE, PROCEDUR } OBJECTS;
-typedef  enum { LIT, OPR, LOD, STO, CALL, INI, JMP, JPC } FCT;
+typedef  enum { CONSTANT, VARIABLE, PROCEDUR, ARRAY } OBJECTS;
+typedef  enum { LIT, OPR, LOD, STO, CALL, INI, JMP, JPC, MEM, STOS, LODS, __INS_SIZE__ } FCT;
 typedef struct {
 	FCT F;     /*FUNCTION CODE*/
 	int L; 	/*0..LEVMAX  LEVEL*/
@@ -61,7 +61,7 @@ INSTRUCTION  CODE[CXMAX];
 ALFA    KWORD[NORW + 1];
 SYMBOL  WSYM[NORW + 1];
 SYMBOL  SSYM['^' + 1];
-ALFA    MNEMONIC[9];
+ALFA    MNEMONIC[__INS_SIZE__];
 SYMSET  DECLBEGSYS, STATBEGSYS, FACBEGSYS;
 
 struct {
@@ -411,6 +411,12 @@ void ENTER(OBJECTS K, int LEV, int& TX, int& DX) { /*ENTER OBJECT INTO TABLE*/
 	case PROCEDUR:
 		TABLE[TX].vp.LEVEL = LEV;
 		break;
+	case ARRAY:
+		TABLE[TX].vp.LEVEL = LEV;
+		TABLE[TX].vp.ADR = DX;
+		TABLE[TX].vp.SIZE = NUM;		//数组大小
+		DX++;
+		break;
 	}
 } /*ENTER*/
 //---------------------------------------------------------------------------
@@ -443,7 +449,37 @@ void ConstDeclaration(int LEV, int& TX, int& DX) {
 } /*ConstDeclaration()*/
 //---------------------------------------------------------------------------
 void VarDeclaration(int LEV, int& TX, int& DX) {
-	if (SYM == IDENT) { ENTER(VARIABLE, LEV, TX, DX); GetSym(); }
+	if (SYM == IDENT) 
+	{ 
+		GetSym();
+		if (SYM == LEFTSB)
+		{
+			GetSym();
+			if (SYM == NUMBER)
+			{
+				ENTER(ARRAY, LEV, TX, DX);
+				GetSym();
+				if (SYM == RIGHTSB)
+				{
+					GetSym();
+				}
+				else
+				{
+					Error(51);
+				}
+			}
+			else
+			{
+				Error(50);
+			}
+			
+		}
+		else
+		{
+			ENTER(VARIABLE, LEV, TX, DX);
+		}
+		
+	}
 	else Error(4);
 } /*VarDeclaration()*/
 //---------------------------------------------------------------------------
@@ -465,6 +501,7 @@ void ListCode(int CX0) {  /*LIST CODE GENERATED FOR THIS Block*/
 */
 void FACTOR(SYMSET FSYS, int LEV, int& TX) {
 	int i;
+	int shift = 0;
 	// 检查当前符号是否在因子的开始符号集合中
 	TEST(FACBEGSYS, FSYS, 24);
 	while (SymIn(SYM, FACBEGSYS)) {
@@ -476,6 +513,28 @@ void FACTOR(SYMSET FSYS, int LEV, int& TX) {
 				case CONSTANT: GEN(LIT, 0, TABLE[i].VAL); break;
 				case VARIABLE: GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR); break;
 				case PROCEDUR: Error(21); break;
+				case ARRAY:
+					/*数组访问*/
+					GetSym();
+					if (SYM == LEFTSB)
+					{
+						GetSym();
+						EXPRESSION(SymSetUnion(SymSetNew(RIGHTSB), FSYS), LEV, TX);
+						if (SYM == RIGHTSB)
+						{
+							GEN(LODS, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+							//GEN(LOD, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR + shift);
+						}
+						else
+						{
+							Error(53);
+						}
+					}
+					else
+					{
+						Error(51);
+					}
+					break;
 				}
 			GetSym();
 			/*处理表达式的i++和i--*/
@@ -500,7 +559,7 @@ void FACTOR(SYMSET FSYS, int LEV, int& TX) {
 				GEN(LIT, 0, 1);
 				GEN(OPR, 0, 2);
 				GetSym();
-			}
+			} 
 		}
 		else if (SYM == NUMBER)
 		{
@@ -615,16 +674,38 @@ void CONDITION(SYMSET FSYS, int LEV, int& TX) {
 */
 void STATEMENT(SYMSET FSYS, int LEV, int& TX) {   /*STATEMENT*/
 	int i, CX1, CX2, CX3;
+	int shift = 0;
+	BOOL is_array = FALSE;
 	BOOL then_no = FALSE;
 	switch (SYM) {
 	case IDENT: /*标识符*/
 		i = PPOSITION(ID, TX);	/* 查找标识符在符号表中的位置 */
 		if (i == 0) Error(11);	/* 标识符未声明 */
-		else if (TABLE[i].KIND != VARIABLE) 
+		else if (TABLE[i].KIND != VARIABLE && TABLE[i].KIND != ARRAY)
 		{ /* 赋值给非变量 */
 				Error(12); i = 0;
 		}
 		GetSym();
+		if (SYM == LEFTSB)
+		{
+			/*左值是个数组*/
+			GetSym();
+			EXPRESSION(SymSetUnion(SymSetNew(RIGHTSB), FSYS), LEV, TX);
+			if (SYM != RIGHTSB)
+			{
+				Error(53);		//缺少右括号
+			}
+			GetSym();
+			if (SYM == BECOMES)
+			{
+				/* 处理 = */
+				GetSym();
+				EXPRESSION(FSYS, LEV, TX);		/* 处理表达式 */
+				/* 生成存储指令 */
+				if (i != 0) GEN(STOS, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+			}
+			break;
+		}
 		if (SYM == BECOMES) 
 		{
 			/* 处理 = */
@@ -937,6 +1018,7 @@ void Block(int LEV, int TX, SYMSET FSYS) {
 	int DX = 3;    /*DATA ALLOCATION INDEX*/
 	int TX0 = TX;  /*INITIAL TABLE INDEX*/
 	int CX0 = CX;  /*INITIAL CODE INDEX*/
+	int pos = 0;	/*位置修正*/
 	// 设置跳转指令，用于过程调用
 	TABLE[TX].vp.ADR = CX; GEN(JMP, 0, 0);
 	// 检查当前块的嵌套层次是否超过最大允许值
@@ -988,6 +1070,21 @@ void Block(int LEV, int TX, SYMSET FSYS) {
 	TABLE[TX0].vp.SIZE = DX;  /*SIZE OF DATA SEGMENT*/
 	// 生成初始化指令
 	GEN(INI, 0, DX);
+	/*修正变量地址*/
+	pos = 3;
+	for (int i = 1; i < DX; i++)
+	{
+		TABLE[i].vp.ADR = pos;
+		if (TABLE[i].KIND == ARRAY)
+		{
+			GEN(MEM, TABLE[i].vp.LEVEL, TABLE[i].vp.SIZE);
+			pos += TABLE[i].vp.SIZE;
+		}
+		else
+		{
+			pos++;
+		}
+	}
 	STATEMENT(SymSetUnion(SymSetNew(SEMICOLON, ENDSYM), FSYS), LEV, TX);
 	// 生成返回指令
 	GEN(OPR, 0, 0);  /*RETURN*/
@@ -1033,7 +1130,7 @@ void Interpret() {
 			case 13: T--; S[T] = S[T] <= S[T + 1];  break;
 			case 14: AppendTextToRichEdit(IDC_RICHEDIT21, (std::to_string(S[T]) + '\n').c_str()); fwprintf(FOUT, L"%d\n", S[T]); T--;
 				break;
-			case 15: /*Form1->printfs(""); fprintf(FOUT,"\n"); */ break;
+			case 15: AppendTextToRichEdit(IDC_RICHEDIT21, "\n"); break;/*Form1->printfs(""); fprintf(FOUT,"\n"); */ break;
 			case 16: T++;
 				AppendTextToRichEdit(IDC_RICHEDIT21, ("? " + std::to_string(S[T] + '\n')).c_str());
 				fwprintf(FOUT, L"? %d\n", S[T]);
@@ -1041,6 +1138,9 @@ void Interpret() {
 			case 17: S[T] = !S[T]; break;
 			}
 			break;
+		case STOS: S[BASE(I.L, B, S) + I.A + S[T - 1]] = S[T]; T -= 2; break;
+		case LODS: S[T] = S[BASE(I.L, B, S) + I.A + S[T--]]; T++; break;
+		case MEM: T += BASE(I.L, B, S) + I.A; break;		//数组开辟空间
 		case LOD: T++; S[T] = S[BASE(I.L, B, S) + I.A]; break;
 		case STO: S[BASE(I.L, B, S) + I.A] = S[T]; T--; break;
 		case CALL: /*GENERAT NEW Block MARK*/
