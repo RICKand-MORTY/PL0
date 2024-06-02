@@ -3,6 +3,9 @@
 //---------------------------------------------------------------------------
 #include <stdio.h>
 #include <string>
+#include "DLG_INPUT.h"
+#include<thread>
+using std::thread;
 using std::string;
 //---------------------------------------------------------------------------
 BOOL List_all;
@@ -822,10 +825,36 @@ void STATEMENT(SYMSET FSYS, int LEV, int& TX) {   /*STATEMENT*/
 				if (SYM == IDENT) i = PPOSITION(ID, TX);	/* 查找标识符 */
 				else i = 0;
 				if (i == 0) Error(35);						/* 标识符未声明 */
-				else {
-					GEN(OPR, 0, 16);						/* 生成读指令 */
-					/* 生成存储指令 */
-					GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+				else 
+				{
+					if (TABLE[i].KIND == ARRAY)
+					{
+						GetSym();
+						if (SYM == LEFTSB)
+						{
+							/*左值是个数组*/
+							GetSym();
+							EXPRESSION(SymSetUnion(SymSetNew(RIGHTSB), FSYS), LEV, TX);
+							GEN(OPR, 0, 16);
+							GEN(STOS, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+							if (SYM != RIGHTSB)
+							{
+								Error(53);		//缺少右括号
+							}
+							GetSym();
+							break;
+						}
+						else
+						{
+							Error(50);
+						}
+					}
+					else if (TABLE[i].KIND == VARIABLE)
+					{
+						GEN(OPR, 0, 16);						/* 生成读指令 */
+						/* 生成存储指令 */
+						GEN(STO, LEV - TABLE[i].vp.LEVEL, TABLE[i].vp.ADR);
+					}
 				}
 				GetSym();
 			} while (SYM == COMMA);				/* 处理逗号分隔的标识符 */
@@ -1100,6 +1129,11 @@ int BASE(int L, int B, int S[]) {
 	return B1;
 } /*BASE*/
 //---------------------------------------------------------------------------
+void threadproc(int S[], int* T)
+{
+	
+}
+
 void Interpret() {
 	const int STACKSIZE = 500;
 	int P, B, T; 		/*PROGRAM BASE TOPSTACK REGISTERS*/
@@ -1114,28 +1148,40 @@ void Interpret() {
 		switch (I.F) {
 		case LIT: T++; S[T] = I.A; break;
 		case OPR:
-			switch (I.A) { /*OPERATOR*/
-			case 0: /*RETURN*/ T = B - 1; P = S[T + 3]; B = S[T + 2]; break;
-			case 1: S[T] = -S[T];  break;
-			case 2: T--; S[T] = S[T] + S[T + 1];   break;
-			case 3: T--; S[T] = S[T] - S[T + 1];   break;
-			case 4: T--; S[T] = S[T] * S[T + 1];   break;
-			case 5: T--; S[T] = S[T] / S[T + 1]; break;
-			case 6: S[T] = (S[T] % 2 != 0);        break;
-			case 8: T--; S[T] = S[T] == S[T + 1];  break;
-			case 9: T--; S[T] = S[T] != S[T + 1];  break;
-			case 10: T--; S[T] = S[T] < S[T + 1];   break;
-			case 11: T--; S[T] = S[T] >= S[T + 1];  break;
-			case 12: T--; S[T] = S[T] > S[T + 1];   break;
-			case 13: T--; S[T] = S[T] <= S[T + 1];  break;
-			case 14: AppendTextToRichEdit(IDC_RICHEDIT21, (std::to_string(S[T]) + '\n').c_str()); fwprintf(FOUT, L"%d\n", S[T]); T--;
-				break;
-			case 15: AppendTextToRichEdit(IDC_RICHEDIT21, "\n"); break;/*Form1->printfs(""); fprintf(FOUT,"\n"); */ break;
-			case 16: T++;
-				AppendTextToRichEdit(IDC_RICHEDIT21, ("? " + std::to_string(S[T] + '\n')).c_str());
-				fwprintf(FOUT, L"? %d\n", S[T]);
-				break;
-			case 17: S[T] = !S[T]; break;
+			switch (I.A) 
+			{ /*OPERATOR*/
+				case 0: /*RETURN*/ T = B - 1; P = S[T + 3]; B = S[T + 2]; break;
+				case 1: S[T] = -S[T];  break;
+				case 2: T--; S[T] = S[T] + S[T + 1];   break;
+				case 3: T--; S[T] = S[T] - S[T + 1];   break;
+				case 4: T--; S[T] = S[T] * S[T + 1];   break;
+				case 5: T--; S[T] = S[T] / S[T + 1]; break;
+				case 6: S[T] = (S[T] % 2 != 0);        break;
+				case 8: T--; S[T] = S[T] == S[T + 1];  break;
+				case 9: T--; S[T] = S[T] != S[T + 1];  break;
+				case 10: T--; S[T] = S[T] < S[T + 1];   break;
+				case 11: T--; S[T] = S[T] >= S[T + 1];  break;
+				case 12: T--; S[T] = S[T] > S[T + 1];   break;
+				case 13: T--; S[T] = S[T] <= S[T + 1];  break;
+				case 14: AppendTextToRichEdit(IDC_RICHEDIT21, (std::to_string(S[T]) + '\n').c_str()); fwprintf(FOUT, L"%d\n", S[T]); T--;
+					break;
+				case 15: /*AppendTextToRichEdit(IDC_RICHEDIT21, "\n");*/ break;/*Form1->printfs(""); fprintf(FOUT,"\n"); */ break;
+				case 16:
+				{
+					T++;
+					DLG_INPUT dlg;
+					// 显示模态对话框，这将阻塞原始窗口
+					if (dlg.DoModal() == IDC_INPUT_OK)
+					{
+						// 获取输入
+						int contentInt = _ttoi(dlg.m_EditContent);
+						S[T] = contentInt;
+						LPWSTR content = dlg.m_EditContent.GetBuffer();
+						AppendTextToRichEdit(IDC_RICHEDIT21, ("Input:" + std::to_string(S[T]) + '\n').c_str());
+					}
+					break;
+				}
+				case 17: S[T] = !S[T]; break;
 			}
 			break;
 		case STOS: S[BASE(I.L, B, S) + I.A + S[T - 1]] = S[T]; T -= 2; break;

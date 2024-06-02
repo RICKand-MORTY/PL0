@@ -39,6 +39,9 @@
     <ClInclude Include="PL0.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DLG_INPUT.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PL0_MFC.cpp">
@@ -51,6 +54,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="DLG.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DLG_INPUT.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
